@@ -20,7 +20,7 @@ public class NotificationController {
 
 	    @PostMapping("/sendEmail")
 	    public ResponseEntity<String> sendEmailNotification(@RequestBody EmailrequestDto emailRequest) {
-	        emailService.sendEmail(emailRequest.getToEmail(), emailRequest.getSubject(), emailRequest.getBody(),emailRequest.getFromEmail());
+	        emailService.sendEmail(emailRequest.getToEmail(), emailRequest.getSubject(), emailRequest.getBody());
 	        return ResponseEntity.ok("Email sent successfully");
 	    }
 	

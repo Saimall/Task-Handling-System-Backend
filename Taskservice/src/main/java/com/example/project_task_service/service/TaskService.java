@@ -1,5 +1,7 @@
 package com.example.project_task_service.service;
 
+import com.example.project_task_service.dto.EmailRequestDto;
+import com.example.project_task_service.dto.EmployeeDto;
 import com.example.project_task_service.dto.TaskRequestDto;
 import com.example.project_task_service.dto.TaskResponseDto;
 import com.example.project_task_service.exceptions.ProjectNotFoundException;
@@ -11,9 +13,12 @@ import com.example.project_task_service.repository.ProjectRepository;
 import com.example.project_task_service.repository.TaskRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,8 +35,11 @@ public class TaskService {
 
     @Autowired
     private ProjectRepository projectRepository;
+    
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public Task addTaskToProject(Long projectId, TaskRequestDto taskDto) {
+    public Task addTaskToProject(Long projectId, TaskRequestDto taskDto) throws Exception {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ProjectNotFoundException("Project not found to assign task with ID: " + projectId));
 
@@ -47,9 +55,36 @@ public class TaskService {
                 .completedAt(null)
                 .project(project)
                 .build();
+        
+        String employeeEmail = getEmployeeEmailFromAccessGrand(task.getEmployeeId());
+        notifyEmployee(employeeEmail, task.getTaskTitle(),task.getTaskDescription());
+
             return taskRepository.save(task);
     }
+    
+    //getting employee email
+    public String getEmployeeEmailFromAccessGrand(Long employeeId) throws Exception {
+        String url = "http://localhost:9093/api/v1/employee/viewEmployeeDetails/" + employeeId; // Adjust the URL as necessary
+        ResponseEntity<EmployeeDto> response = restTemplate.getForEntity(url, EmployeeDto.class);
 
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            return response.getBody().getEmail();
+        } else {
+            throw new Exception("Employee not found with ID: " + employeeId);
+        }
+    }
+
+    
+    private void notifyEmployee(String employeeEmail, String managerEmail, String taskTitle) {
+        String url = "http://notification-service/notifications/sendEmail";
+        EmailRequestDto emailRequest = new EmailRequestDto();
+        emailRequest.setToEmail(employeeEmail);
+        emailRequest.setSubject("New Task Assigned: " + taskTitle);
+        emailRequest.setBody("You have a new task assigned by " + managerEmail);
+
+        restTemplate.postForEntity(url, emailRequest, String.class);
+    }
+    
     public List<TaskResponseDto> getTaskByProjectId(Long projectId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ProjectNotFoundException("Project not found with ID " + projectId));
