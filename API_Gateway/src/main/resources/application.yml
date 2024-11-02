@@ -30,11 +30,11 @@ spring:
       mvc:
         routes:
           - id: user-service
-            uri: lb://user-service
+            uri: lb://AccessGrand
             predicates:
               - Path=/api/v1/**
           - id: project-task-service
-            uri: lb://project-task-service
+            uri: lb://Taskservice
             predicates:
               - Path=/api/v2/**
 
