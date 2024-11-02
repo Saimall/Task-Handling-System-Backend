@@ -1,0 +1,12 @@
+[
+  {
+    "route": "GET /api/v2/task/getTasksByEmployeeId/{employeeId}",
+    "parameters": "()",
+    "status": 200
+  },
+  {
+    "route": "PUT /api/v2/task/updateTaskStatus/{taskId}/{status}",
+    "parameters": "()",
+    "status": 500
+  }
+]

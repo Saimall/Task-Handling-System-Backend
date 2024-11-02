@@ -1,0 +1,23 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 9092
+spring:
+  application:
+    name: project-task-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/projecttask
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+
+
+#  main:
+#    allow-bean-definition-overriding: true

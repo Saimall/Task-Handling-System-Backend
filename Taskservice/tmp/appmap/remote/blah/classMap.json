@@ -1,0 +1,194 @@
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "builder",
+                        "type": "function",
+                        "static": true,
+                        "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                      }
+                    ],
+                    "name": "TaskResponseDto",
+                    "type": "class"
+                  },
+                  {
+                    "children": [
+                      {
+                        "name": "dueDate",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                      },
+                      {
+                        "name": "taskTitle",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                      },
+                      {
+                        "name": "employeeId",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                      },
+                      {
+                        "name": "taskDescription",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                      },
+                      {
+                        "name": "status",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                      },
+                      {
+                        "name": "build",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                      },
+                      {
+                        "name": "priority",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                      },
+                      {
+                        "name": "taskId",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                      }
+                    ],
+                    "name": "TaskResponseDto$TaskResponseDtoBuilder",
+                    "type": "class"
+                  }
+                ],
+                "name": "dto",
+                "type": "package"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "getTasksByEmployeeId",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/controller/TaskController.java:155"
+                      },
+                      {
+                        "name": "updateTaskStatus",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/controller/TaskController.java:123"
+                      }
+                    ],
+                    "name": "TaskController",
+                    "type": "class"
+                  }
+                ],
+                "name": "controller",
+                "type": "package"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "getTasksByEmployeeId",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/service/TaskService.java:181"
+                      }
+                    ],
+                    "name": "TaskService",
+                    "type": "class"
+                  }
+                ],
+                "name": "service",
+                "type": "package"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "findByEmployeeId",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/repository/TaskRepository.java:-1"
+                      }
+                    ],
+                    "name": "TaskRepository",
+                    "type": "class"
+                  }
+                ],
+                "name": "repository",
+                "type": "package"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "valueOf",
+                        "type": "function",
+                        "static": true,
+                        "location": "src/main/java/com/example/project_task_service/model/Status.java:3"
+                      }
+                    ],
+                    "name": "Status",
+                    "type": "class"
+                  }
+                ],
+                "name": "model",
+                "type": "package"
+              }
+            ],
+            "name": "project_task_service",
+            "type": "package"
+          }
+        ],
+        "name": "example",
+        "type": "package"
+      }
+    ],
+    "name": "com",
+    "type": "package"
+  },
+  {
+    "type": "http",
+    "name": "HTTP server requests",
+    "children": [
+      {
+        "type": "route",
+        "name": "GET /api/v2/task/getTasksByEmployeeId/{employeeId}"
+      },
+      {
+        "type": "route",
+        "name": "PUT /api/v2/task/updateTaskStatus/{taskId}/{status}"
+      }
+    ]
+  },
+  {
+    "type": "database",
+    "name": "Database",
+    "children": [
+      {
+        "type": "query",
+        "name": "select t1_0.task_id,t1_0.completed_at,t1_0.created_at,t1_0.due_date,t1_0.employee_id,t1_0.priority,t1_0.project_id,t1_0.status,t1_0.task_description,t1_0.task_title,t1_0.updated_at from task t1_0 where t1_0.employee_id=?"
+      }
+    ]
+  }
+]

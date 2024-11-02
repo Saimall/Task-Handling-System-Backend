@@ -1,0 +1,7 @@
+[
+  "com/example/project_task_service/controller/TaskController",
+  "com/example/project_task_service/dto/TaskResponseDto",
+  "com/example/project_task_service/dto/TaskResponseDto$TaskResponseDtoBuilder",
+  "com/example/project_task_service/model/Status",
+  "com/example/project_task_service/service/TaskService"
+]

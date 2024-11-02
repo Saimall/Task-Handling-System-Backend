@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /api/v2/task/getTaskByProjectId/{projectId}",
+    "parameters": "()",
+    "status": 200
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "class": "java.lang.IllegalArgumentException",
+    "message": "No enum constant com.example.project_task_service.model.Status.Completed",
+    "stack": [
+      "Enum.java:293",
+      "src/main/java/com/example/project_task_service/model/Status.java:3",
+      "src/main/java/com/example/project_task_service/controller/TaskController.java:123"
+    ],
+    "location": "Enum.java:293"
+  }
+]

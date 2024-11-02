@@ -1,0 +1,7 @@
+[
+  {
+    "route": "PUT /api/v2/task/updateTaskStatus/{taskId}/{status}",
+    "parameters": "()",
+    "status": 200
+  }
+]

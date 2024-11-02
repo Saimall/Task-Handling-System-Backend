@@ -1,0 +1,5 @@
+[
+  "com/example/project_task_service/controller/ProjectController",
+  "com/example/project_task_service/repository/ProjectRepository",
+  "com/example/project_task_service/service/ProjectService"
+]

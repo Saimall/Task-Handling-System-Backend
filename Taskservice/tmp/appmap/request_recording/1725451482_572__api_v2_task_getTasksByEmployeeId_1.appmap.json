@@ -1,0 +1,669 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "headers": {
+          "sec-fetch-mode": "cors",
+          "referer": "http://localhost:3000/",
+          "transfer-encoding": "chunked",
+          "sec-fetch-site": "same-site",
+          "upgrade": "h2c",
+          "accept-language": "en-US,en;q=0.9",
+          "x-forwarded-proto": "http",
+          "origin": "http://localhost:3000",
+          "x-forwarded-port": "9093",
+          "x-forwarded-for": "0:0:0:0:0:0:0:1",
+          "http2-settings": "AAEAAEAAAAIAAAABAAMAAABkAAQBAAAAAAUAAEAA",
+          "forwarded": "proto=http;host=\"localhost:9093\";for=\"[0:0:0:0:0:0:0:1]:52431\"",
+          "accept": "application/json, text/plain, */*",
+          "sec-ch-ua": "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"",
+          "sec-ch-ua-mobile": "?0",
+          "x-forwarded-host": "localhost:9093",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "host": "172.19.41.8:9092",
+          "connection": "Upgrade, HTTP2-Settings",
+          "accept-encoding": "gzip, deflate, br, zstd",
+          "sec-fetch-dest": "empty",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+        },
+        "normalized_path_info": "/api/v2/task/getTasksByEmployeeId/{employeeId}",
+        "path_info": "/api/v2/task/getTasksByEmployeeId/1",
+        "protocol": "HTTP/1.1",
+        "request_method": "GET"
+      },
+      "id": 1,
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.controller.TaskController",
+      "event": "call",
+      "id": 2,
+      "lineno": 155,
+      "method_id": "getTasksByEmployeeId",
+      "parameters": [
+        {
+          "class": "java.lang.Long",
+          "kind": "req",
+          "name": "employeeId",
+          "object_id": 1821739821,
+          "value": "1"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/controller/TaskController.java",
+      "receiver": {
+        "class": "com.example.project_task_service.controller.TaskController",
+        "object_id": 162133287,
+        "value": "com.example.project_task_service.controller.TaskController@9a9f527"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.service.TaskService",
+      "event": "call",
+      "id": 3,
+      "lineno": 181,
+      "method_id": "getTasksByEmployeeId",
+      "parameters": [
+        {
+          "class": "java.lang.Long",
+          "kind": "req",
+          "name": "employeeId",
+          "object_id": 1821739821,
+          "value": "1"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/service/TaskService.java",
+      "receiver": {
+        "class": "com.example.project_task_service.service.TaskService",
+        "object_id": 847143509,
+        "value": "com.example.project_task_service.service.TaskService@327e6255"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.repository.TaskRepository",
+      "event": "call",
+      "id": 4,
+      "lineno": -1,
+      "method_id": "findByEmployeeId",
+      "parameters": [
+        {
+          "class": "java.lang.Long",
+          "kind": "req",
+          "name": "p0",
+          "object_id": 1821739821,
+          "value": "1"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/repository/TaskRepository.java",
+      "receiver": {
+        "class": "jdk.proxy3.$Proxy238",
+        "object_id": 330457843,
+        "value": "org.springframework.data.jpa.repository.support.SimpleJpaRepository@26872af1"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "event": "call",
+      "id": 5,
+      "sql_query": {
+        "database_type": "MySQL",
+        "sql": "select t1_0.task_id,t1_0.completed_at,t1_0.created_at,t1_0.due_date,t1_0.employee_id,t1_0.priority,t1_0.project_id,t1_0.status,t1_0.task_description,t1_0.task_title,t1_0.updated_at from task t1_0 where t1_0.employee_id=?"
+      },
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "id": 6,
+      "parent_id": 5,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0.0005005,
+      "event": "return",
+      "id": 7,
+      "parent_id": 4,
+      "return_value": {
+        "class": "java.util.ArrayList",
+        "object_id": 493651167,
+        "value": "< invalid >"
+      },
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.dto.TaskResponseDto",
+      "event": "call",
+      "id": 8,
+      "lineno": 17,
+      "method_id": "builder",
+      "path": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java",
+      "static": true,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0.00539944,
+      "event": "return",
+      "id": 9,
+      "parent_id": 8,
+      "return_value": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=null, taskTitle=null, taskDescription=null, employeeId=null, dueDate=null, priority=null, status=null)"
+      },
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+      "event": "call",
+      "id": 10,
+      "lineno": 17,
+      "method_id": "taskId",
+      "parameters": [
+        {
+          "class": "java.lang.Long",
+          "kind": "req",
+          "name": "taskId",
+          "object_id": 1150491318,
+          "value": "4"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java",
+      "receiver": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=null, taskDescription=null, employeeId=null, dueDate=null, priority=null, status=null)"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0.00009991,
+      "event": "return",
+      "id": 11,
+      "parent_id": 10,
+      "return_value": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=null, taskDescription=null, employeeId=null, dueDate=null, priority=null, status=null)"
+      },
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+      "event": "call",
+      "id": 12,
+      "lineno": 17,
+      "method_id": "taskTitle",
+      "parameters": [
+        {
+          "class": "java.lang.String",
+          "kind": "req",
+          "name": "taskTitle",
+          "object_id": 1444189103,
+          "value": "Create Dashboard"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java",
+      "receiver": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=null, employeeId=null, dueDate=null, priority=null, status=null)"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "id": 13,
+      "parent_id": 12,
+      "return_value": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=null, employeeId=null, dueDate=null, priority=null, status=null)"
+      },
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+      "event": "call",
+      "id": 14,
+      "lineno": 17,
+      "method_id": "taskDescription",
+      "parameters": [
+        {
+          "class": "java.lang.String",
+          "kind": "req",
+          "name": "taskDescription",
+          "object_id": 1430199649,
+          "value": "dashboard"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java",
+      "receiver": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=null, dueDate=null, priority=null, status=null)"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "id": 15,
+      "parent_id": 14,
+      "return_value": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=null, dueDate=null, priority=null, status=null)"
+      },
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+      "event": "call",
+      "id": 16,
+      "lineno": 17,
+      "method_id": "dueDate",
+      "parameters": [
+        {
+          "class": "java.time.LocalDate",
+          "kind": "req",
+          "name": "dueDate",
+          "object_id": 912180269,
+          "value": "2024-09-07"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java",
+      "receiver": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=null, dueDate=2024-09-07, priority=null, status=null)"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0.00010034,
+      "event": "return",
+      "id": 17,
+      "parent_id": 16,
+      "return_value": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=null, dueDate=2024-09-07, priority=null, status=null)"
+      },
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+      "event": "call",
+      "id": 18,
+      "lineno": 17,
+      "method_id": "priority",
+      "parameters": [
+        {
+          "class": "com.example.project_task_service.model.Priority",
+          "kind": "req",
+          "name": "priority",
+          "object_id": 1874751104,
+          "value": "MEDIUM"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java",
+      "receiver": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=null, dueDate=2024-09-07, priority=MEDIUM, status=null)"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "id": 19,
+      "parent_id": 18,
+      "return_value": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=null, dueDate=2024-09-07, priority=MEDIUM, status=null)"
+      },
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+      "event": "call",
+      "id": 20,
+      "lineno": 17,
+      "method_id": "employeeId",
+      "parameters": [
+        {
+          "class": "java.lang.Long",
+          "kind": "req",
+          "name": "employeeId",
+          "object_id": 1821739821,
+          "value": "1"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java",
+      "receiver": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=1, dueDate=2024-09-07, priority=MEDIUM, status=null)"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "id": 21,
+      "parent_id": 20,
+      "return_value": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=1, dueDate=2024-09-07, priority=MEDIUM, status=null)"
+      },
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+      "event": "call",
+      "id": 22,
+      "lineno": 17,
+      "method_id": "status",
+      "parameters": [
+        {
+          "class": "com.example.project_task_service.model.Status",
+          "kind": "req",
+          "name": "status",
+          "object_id": 993238003,
+          "value": "TODO"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java",
+      "receiver": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=1, dueDate=2024-09-07, priority=MEDIUM, status=TODO)"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "id": 23,
+      "parent_id": 22,
+      "return_value": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=1, dueDate=2024-09-07, priority=MEDIUM, status=TODO)"
+      },
+      "thread_id": 54
+    },
+    {
+      "defined_class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+      "event": "call",
+      "id": 24,
+      "lineno": 17,
+      "method_id": "build",
+      "path": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java",
+      "receiver": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto$TaskResponseDtoBuilder",
+        "object_id": 158290506,
+        "value": "TaskResponseDto.TaskResponseDtoBuilder(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=1, dueDate=2024-09-07, priority=MEDIUM, status=TODO)"
+      },
+      "static": false,
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "id": 25,
+      "parent_id": 24,
+      "return_value": {
+        "class": "com.example.project_task_service.dto.TaskResponseDto",
+        "object_id": 1171271086,
+        "value": "TaskResponseDto(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=1, dueDate=2024-09-07, priority=MEDIUM, status=TODO)"
+      },
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0.00629895,
+      "event": "return",
+      "id": 26,
+      "parent_id": 3,
+      "return_value": {
+        "class": "java.util.ImmutableCollections$ListN",
+        "object_id": 933975888,
+        "value": "[TaskResponseDto(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=1, dueDate=2024-09-07, priority=MEDIUM, status=TODO)]"
+      },
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0.00629895,
+      "event": "return",
+      "id": 27,
+      "parent_id": 2,
+      "return_value": {
+        "class": "org.springframework.http.ResponseEntity",
+        "object_id": 450007249,
+        "value": "<200 OK OK,[TaskResponseDto(taskId=4, taskTitle=Create Dashboard, taskDescription=dashboard, employeeId=1, dueDate=2024-09-07, priority=MEDIUM, status=TODO)],[]>"
+      },
+      "thread_id": 54
+    },
+    {
+      "elapsed": 0.00669973,
+      "event": "return",
+      "http_server_response": {
+        "headers": {
+          "Transfer-Encoding": "chunked",
+          "Date": "Wed, 04 Sep 2024 12:04:42 GMT",
+          "Content-Type": "application/json"
+        },
+        "status": 200
+      },
+      "id": 28,
+      "parent_id": 1,
+      "thread_id": 54
+    }
+  ],
+  "version": "1.2",
+  "metadata": {
+    "name": "GET /api/v2/task/getTasksByEmployeeId/1 (200) - 17:34:42.572",
+    "app": "project-task-service",
+    "language": {
+      "name": "java",
+      "version": "21.0.4+7-LTS",
+      "engine": "OpenJDK 64-Bit Server VM"
+    },
+    "client": {
+      "name": "appmap-java",
+      "url": "https://github.com/appland/appmap-java"
+    },
+    "recorder": {
+      "name": "request_recording",
+      "type": "requests"
+    },
+    "recording": {},
+    "git": {
+      "repository": "https://github.com/Nihalvarma1/Task-Flow-Application.git",
+      "branch": "main",
+      "commit": "b9549ac3beacff3b8771565a3f32a91e41ff4c56"
+    }
+  },
+  "classMap": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "getTasksByEmployeeId",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/controller/TaskController.java:155"
+                        }
+                      ],
+                      "name": "TaskController",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "controller",
+                  "type": "package"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "getTasksByEmployeeId",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/service/TaskService.java:181"
+                        }
+                      ],
+                      "name": "TaskService",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "service",
+                  "type": "package"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "builder",
+                          "type": "function",
+                          "static": true,
+                          "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                        }
+                      ],
+                      "name": "TaskResponseDto",
+                      "type": "class"
+                    },
+                    {
+                      "children": [
+                        {
+                          "name": "build",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                        },
+                        {
+                          "name": "dueDate",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                        },
+                        {
+                          "name": "taskTitle",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                        },
+                        {
+                          "name": "employeeId",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                        },
+                        {
+                          "name": "priority",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                        },
+                        {
+                          "name": "taskDescription",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                        },
+                        {
+                          "name": "status",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                        },
+                        {
+                          "name": "taskId",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/dto/TaskResponseDto.java:17"
+                        }
+                      ],
+                      "name": "TaskResponseDto$TaskResponseDtoBuilder",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "dto",
+                  "type": "package"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "findByEmployeeId",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/repository/TaskRepository.java:-1"
+                        }
+                      ],
+                      "name": "TaskRepository",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "repository",
+                  "type": "package"
+                }
+              ],
+              "name": "project_task_service",
+              "type": "package"
+            }
+          ],
+          "name": "example",
+          "type": "package"
+        }
+      ],
+      "name": "com",
+      "type": "package"
+    },
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /api/v2/task/getTasksByEmployeeId/{employeeId}"
+        }
+      ]
+    },
+    {
+      "type": "database",
+      "name": "Database",
+      "children": [
+        {
+          "type": "query",
+          "name": "select t1_0.task_id,t1_0.completed_at,t1_0.created_at,t1_0.due_date,t1_0.employee_id,t1_0.priority,t1_0.project_id,t1_0.status,t1_0.task_description,t1_0.task_title,t1_0.updated_at from task t1_0 where t1_0.employee_id=?"
+        }
+      ]
+    }
+  ]
+}

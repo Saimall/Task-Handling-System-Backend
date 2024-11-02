@@ -1,0 +1,14 @@
+[
+  {
+    "caller": "GET /api/v2/task/getTasksByEmployeeId/{employeeId}",
+    "callee": "com/example"
+  },
+  {
+    "caller": "PUT /api/v2/task/updateTaskStatus/{taskId}/{status}",
+    "callee": "com/example"
+  },
+  {
+    "caller": "com/example",
+    "callee": "select t1_0.task_id,t1_0.completed_at,t1_0.created_at,t1_0.due_date,t1_0.employee_id,t1_0.priority,t1_0.project_id,t1_0.status,t1_0.task_description,t1_0.task_title,t1_0.updated_at from task t1_0 where t1_0.employee_id=?"
+  }
+]

@@ -1,0 +1,4 @@
+[
+  "select t1_0.task_id,t1_0.completed_at,t1_0.created_at,t1_0.due_date,t1_0.employee_id,t1_0.priority,t1_0.project_id,t1_0.status,t1_0.task_description,t1_0.task_title,t1_0.updated_at from task t1_0 where t1_0.task_id=?",
+  "update task set completed_at=?,created_at=?,due_date=?,employee_id=?,priority=?,project_id=?,status=?,task_description=?,task_title=?,updated_at=? where task_id=?"
+]

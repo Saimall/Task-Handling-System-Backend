@@ -1,0 +1,12 @@
+[
+  {
+    "class": "com.example.project_task_service.exceptions.ProjectNotFoundException",
+    "message": "No projects found for manager with ID: 1",
+    "stack": [
+      "ProjectService.java:39",
+      "src/main/java/com/example/project_task_service/service/ProjectService.java:36",
+      "src/main/java/com/example/project_task_service/controller/ProjectController.java:36"
+    ],
+    "location": "ProjectService.java:39"
+  }
+]

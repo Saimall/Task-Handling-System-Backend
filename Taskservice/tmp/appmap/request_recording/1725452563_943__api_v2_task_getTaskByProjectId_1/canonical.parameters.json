@@ -1,0 +1,10 @@
+[
+  "dueDate",
+  "employeeId",
+  "priority",
+  "projectId",
+  "status",
+  "taskDescription",
+  "taskId",
+  "taskTitle"
+]

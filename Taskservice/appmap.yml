@@ -1,0 +1,5 @@
+language: "java"
+name: "project-task-service"
+appmap_dir: "tmp/appmap"
+packages:
+- path: "com.example.project_task_service"

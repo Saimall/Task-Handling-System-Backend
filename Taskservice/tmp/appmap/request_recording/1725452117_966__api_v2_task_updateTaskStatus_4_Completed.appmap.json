@@ -1,0 +1,82 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "headers": {
+          "sec-fetch-mode": "cors",
+          "referer": "http://localhost:3000/",
+          "sec-fetch-site": "same-site",
+          "accept-language": "en-US,en;q=0.9",
+          "origin": "http://localhost:3000",
+          "host": "localhost:9092",
+          "connection": "keep-alive",
+          "access-control-request-method": "PUT",
+          "accept-encoding": "gzip, deflate, br, zstd",
+          "accept": "*/*",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+          "sec-fetch-dest": "empty"
+        },
+        "normalized_path_info": "/api/v2/task/updateTaskStatus/{taskId}/{status}",
+        "path_info": "/api/v2/task/updateTaskStatus/4/Completed",
+        "protocol": "HTTP/1.1",
+        "request_method": "OPTIONS"
+      },
+      "id": 1,
+      "thread_id": 51
+    },
+    {
+      "elapsed": 0.00099884,
+      "event": "return",
+      "http_server_response": {
+        "headers": {
+          "Transfer-Encoding": "chunked",
+          "Keep-Alive": "timeout=60",
+          "Connection": "keep-alive",
+          "Vary": "Origin",
+          "Date": "Wed, 04 Sep 2024 12:15:17 GMT"
+        },
+        "status": 403
+      },
+      "id": 2,
+      "parent_id": 1,
+      "thread_id": 51
+    }
+  ],
+  "version": "1.2",
+  "metadata": {
+    "name": "OPTIONS /api/v2/task/updateTaskStatus/4/Completed (403) - 17:45:17.966",
+    "app": "project-task-service",
+    "language": {
+      "name": "java",
+      "version": "21.0.4+7-LTS",
+      "engine": "OpenJDK 64-Bit Server VM"
+    },
+    "client": {
+      "name": "appmap-java",
+      "url": "https://github.com/appland/appmap-java"
+    },
+    "recorder": {
+      "name": "request_recording",
+      "type": "requests"
+    },
+    "recording": {},
+    "git": {
+      "repository": "https://github.com/Nihalvarma1/Task-Flow-Application.git",
+      "branch": "main",
+      "commit": "b9549ac3beacff3b8771565a3f32a91e41ff4c56"
+    }
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "OPTIONS /api/v2/task/updateTaskStatus/{taskId}/{status}"
+        }
+      ]
+    }
+  ]
+}

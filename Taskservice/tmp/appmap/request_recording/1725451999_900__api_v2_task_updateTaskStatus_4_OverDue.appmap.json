@@ -1,0 +1,218 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "headers": {
+          "sec-fetch-mode": "cors",
+          "referer": "http://localhost:3000/",
+          "transfer-encoding": "chunked",
+          "sec-fetch-site": "same-site",
+          "upgrade": "h2c",
+          "accept-language": "en-US,en;q=0.9",
+          "x-forwarded-proto": "http",
+          "origin": "http://localhost:3000",
+          "x-forwarded-port": "9093",
+          "x-forwarded-for": "0:0:0:0:0:0:0:1",
+          "http2-settings": "AAEAAEAAAAIAAAABAAMAAABkAAQBAAAAAAUAAEAA",
+          "forwarded": "proto=http;host=\"localhost:9093\";for=\"[0:0:0:0:0:0:0:1]:52949\"",
+          "accept": "application/json, text/plain, */*",
+          "sec-ch-ua": "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"",
+          "sec-ch-ua-mobile": "?0",
+          "x-forwarded-host": "localhost:9093",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "host": "172.19.41.8:9092",
+          "connection": "Upgrade, HTTP2-Settings",
+          "accept-encoding": "gzip, deflate, br, zstd",
+          "sec-fetch-dest": "empty",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+        },
+        "normalized_path_info": "/api/v2/task/updateTaskStatus/{taskId}/{status}",
+        "path_info": "/api/v2/task/updateTaskStatus/4/OverDue",
+        "protocol": "HTTP/1.1",
+        "request_method": "PUT"
+      },
+      "id": 1,
+      "thread_id": 56
+    },
+    {
+      "defined_class": "com.example.project_task_service.controller.TaskController",
+      "event": "call",
+      "id": 2,
+      "lineno": 123,
+      "method_id": "updateTaskStatus",
+      "parameters": [
+        {
+          "class": "java.lang.Long",
+          "kind": "req",
+          "name": "taskId",
+          "object_id": 1150491318,
+          "value": "4"
+        },
+        {
+          "class": "java.lang.String",
+          "kind": "req",
+          "name": "status",
+          "object_id": 836029692,
+          "value": "OverDue"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/controller/TaskController.java",
+      "receiver": {
+        "class": "com.example.project_task_service.controller.TaskController",
+        "object_id": 162133287,
+        "value": "com.example.project_task_service.controller.TaskController@9a9f527"
+      },
+      "static": false,
+      "thread_id": 56
+    },
+    {
+      "defined_class": "com.example.project_task_service.model.Status",
+      "event": "call",
+      "id": 3,
+      "lineno": 3,
+      "method_id": "valueOf",
+      "parameters": [
+        {
+          "class": "java.lang.String",
+          "kind": "req",
+          "name": "name",
+          "object_id": 836029692,
+          "value": "OverDue"
+        }
+      ],
+      "path": "src/main/java/com/example/project_task_service/model/Status.java",
+      "static": true,
+      "thread_id": 56
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "exceptions": [
+        {
+          "class": "java.lang.IllegalArgumentException",
+          "lineno": 293,
+          "message": "No enum constant com.example.project_task_service.model.Status.OverDue",
+          "object_id": 1698670710,
+          "path": "Enum.java"
+        }
+      ],
+      "id": 4,
+      "parent_id": 3,
+      "thread_id": 56
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "id": 5,
+      "parent_id": 2,
+      "return_value": {
+        "class": "org.springframework.http.ResponseEntity",
+        "object_id": 1663557336,
+        "value": "<500 INTERNAL_SERVER_ERROR Internal Server Error,[]>"
+      },
+      "thread_id": 56
+    },
+    {
+      "elapsed": 0.00059953,
+      "event": "return",
+      "http_server_response": {
+        "headers": {},
+        "status": 500
+      },
+      "id": 6,
+      "parent_id": 1,
+      "thread_id": 56
+    }
+  ],
+  "version": "1.2",
+  "metadata": {
+    "name": "PUT /api/v2/task/updateTaskStatus/4/OverDue (500) - 17:43:19.900",
+    "app": "project-task-service",
+    "language": {
+      "name": "java",
+      "version": "21.0.4+7-LTS",
+      "engine": "OpenJDK 64-Bit Server VM"
+    },
+    "client": {
+      "name": "appmap-java",
+      "url": "https://github.com/appland/appmap-java"
+    },
+    "recorder": {
+      "name": "request_recording",
+      "type": "requests"
+    },
+    "recording": {},
+    "git": {
+      "repository": "https://github.com/Nihalvarma1/Task-Flow-Application.git",
+      "branch": "main",
+      "commit": "b9549ac3beacff3b8771565a3f32a91e41ff4c56"
+    }
+  },
+  "classMap": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "updateTaskStatus",
+                          "type": "function",
+                          "static": false,
+                          "location": "src/main/java/com/example/project_task_service/controller/TaskController.java:123"
+                        }
+                      ],
+                      "name": "TaskController",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "controller",
+                  "type": "package"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "valueOf",
+                          "type": "function",
+                          "static": true,
+                          "location": "src/main/java/com/example/project_task_service/model/Status.java:3"
+                        }
+                      ],
+                      "name": "Status",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "model",
+                  "type": "package"
+                }
+              ],
+              "name": "project_task_service",
+              "type": "package"
+            }
+          ],
+          "name": "example",
+          "type": "package"
+        }
+      ],
+      "name": "com",
+      "type": "package"
+    },
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "PUT /api/v2/task/updateTaskStatus/{taskId}/{status}"
+        }
+      ]
+    }
+  ]
+}

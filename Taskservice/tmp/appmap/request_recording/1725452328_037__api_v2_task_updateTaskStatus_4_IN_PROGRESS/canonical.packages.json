@@ -1,0 +1,6 @@
+[
+  "com/example/project_task_service/controller",
+  "com/example/project_task_service/dto",
+  "com/example/project_task_service/model",
+  "com/example/project_task_service/service"
+]

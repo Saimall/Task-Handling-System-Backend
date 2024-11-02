@@ -1,0 +1,94 @@
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "getProjectsByManager",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/controller/ProjectController.java:32"
+                      }
+                    ],
+                    "name": "ProjectController",
+                    "type": "class"
+                  }
+                ],
+                "name": "controller",
+                "type": "package"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "getProjectsByManager",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/service/ProjectService.java:36"
+                      }
+                    ],
+                    "name": "ProjectService",
+                    "type": "class"
+                  }
+                ],
+                "name": "service",
+                "type": "package"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "findAllByManagerId",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/repository/ProjectRepository.java:-1"
+                      }
+                    ],
+                    "name": "ProjectRepository",
+                    "type": "class"
+                  }
+                ],
+                "name": "repository",
+                "type": "package"
+              }
+            ],
+            "name": "project_task_service",
+            "type": "package"
+          }
+        ],
+        "name": "example",
+        "type": "package"
+      }
+    ],
+    "name": "com",
+    "type": "package"
+  },
+  {
+    "type": "http",
+    "name": "HTTP server requests",
+    "children": [
+      {
+        "type": "route",
+        "name": "GET /api/v2/project/getProjects/{managerId}"
+      }
+    ]
+  },
+  {
+    "type": "database",
+    "name": "Database",
+    "children": [
+      {
+        "type": "query",
+        "name": "select p1_0.project_id,p1_0.created_at,p1_0.end_date,p1_0.manager_id,p1_0.project_description,p1_0.project_name,p1_0.start_date,p1_0.updated_at from project p1_0 where p1_0.manager_id=?"
+      }
+    ]
+  }
+]

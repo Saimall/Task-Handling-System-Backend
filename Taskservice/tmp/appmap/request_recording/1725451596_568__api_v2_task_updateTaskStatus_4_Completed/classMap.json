@@ -1,0 +1,66 @@
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "updateTaskStatus",
+                        "type": "function",
+                        "static": false,
+                        "location": "src/main/java/com/example/project_task_service/controller/TaskController.java:123"
+                      }
+                    ],
+                    "name": "TaskController",
+                    "type": "class"
+                  }
+                ],
+                "name": "controller",
+                "type": "package"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "valueOf",
+                        "type": "function",
+                        "static": true,
+                        "location": "src/main/java/com/example/project_task_service/model/Status.java:3"
+                      }
+                    ],
+                    "name": "Status",
+                    "type": "class"
+                  }
+                ],
+                "name": "model",
+                "type": "package"
+              }
+            ],
+            "name": "project_task_service",
+            "type": "package"
+          }
+        ],
+        "name": "example",
+        "type": "package"
+      }
+    ],
+    "name": "com",
+    "type": "package"
+  },
+  {
+    "type": "http",
+    "name": "HTTP server requests",
+    "children": [
+      {
+        "type": "route",
+        "name": "PUT /api/v2/task/updateTaskStatus/{taskId}/{status}"
+      }
+    ]
+  }
+]

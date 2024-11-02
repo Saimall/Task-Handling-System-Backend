@@ -1,0 +1,6 @@
+[
+  {
+    "caller": "PUT /api/v2/task/updateTaskStatus/{taskId}/{status}",
+    "callee": "com/example"
+  }
+]

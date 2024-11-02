@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /api/v2/project/getProjects/{managerId}",
+    "parameters": "()",
+    "status": 404
+  }
+]

@@ -1,0 +1,4 @@
+[
+  "select p1_0.project_id,p1_0.created_at,p1_0.end_date,p1_0.manager_id,p1_0.project_description,p1_0.project_name,p1_0.start_date,p1_0.updated_at from project p1_0 where p1_0.project_id=?",
+  "select t1_0.project_id,t1_0.task_id,t1_0.completed_at,t1_0.created_at,t1_0.due_date,t1_0.employee_id,t1_0.priority,t1_0.status,t1_0.task_description,t1_0.task_title,t1_0.updated_at from task t1_0 where t1_0.project_id=?"
+]
