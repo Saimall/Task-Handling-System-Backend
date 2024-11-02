@@ -5,21 +5,32 @@ public class EmailrequestDto {
 	private String toEmail;
 	private String subject;
     private String body;
+	private String fromEmail; 
 	
 	
 	
-	
+	public String getFromEmail() {
+		return fromEmail;
+	}
+
+
+	public void setFromEmail(String fromEmail) {
+		this.fromEmail = fromEmail;
+	}
+
+
 	@Override
 	public String toString() {
 		return "EmailrequestDto [toEmail=" + toEmail + ", subject=" + subject + ", body=" + body + "]";
 	}
 	
 	
-	public EmailrequestDto(String toEmail, String subject, String body) {
+	public EmailrequestDto(String toEmail, String subject, String body,String fromEmail) {
 		super();
 		this.toEmail = toEmail;
 		this.subject = subject;
 		this.body = body;
+		this.fromEmail=fromEmail;
 	}
 	
 	
