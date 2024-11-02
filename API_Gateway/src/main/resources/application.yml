@@ -37,6 +37,10 @@ spring:
             uri: lb://Taskservice
             predicates:
               - Path=/api/v2/**
+          - id: Notification-service
+            uri: lb://Notificationservice
+            predicates:
+              - Path=/notifications/**
 
 
 management:
