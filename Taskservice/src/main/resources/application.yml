@@ -6,7 +6,7 @@ server:
   port: 9092
 spring:
   application:
-    name: project-task-service
+    name: Taskservice
   datasource:
     url: jdbc:postgresql://localhost:5432/projecttask
     username: postgres
