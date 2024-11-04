@@ -49,7 +49,7 @@ public class TaskController {
 			
 			EmailRequestDto emailRequestDto = new EmailRequestDto();
 			
-			emailRequestDto.setBody("Task Added with "+ createdTask.getTaskDescription());
+			emailRequestDto.setBody("Task Added with "+ createdTask.getTaskDescription()+"\n"+"Task Deadline :" + createdTask.getDueDateTime());
 			emailRequestDto.setSubject("Task Added with title"+createdTask.getTaskTitle());
 			emailRequestDto.setToEmail(dto.getEmail());
 			
