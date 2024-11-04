@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>Notificationservice</artifactId>
+	<artifactId>Configserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Notificationservice</name>
+	<name>Configserver</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -32,21 +32,14 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-config-server</artifactId>
 		</dependency>
 		 <dependency>
       <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-config</artifactId>
+      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
     </dependency>
-		 <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
