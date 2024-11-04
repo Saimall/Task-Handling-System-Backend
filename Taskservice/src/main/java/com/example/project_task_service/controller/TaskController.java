@@ -76,24 +76,6 @@ public class TaskController {
 		}
 	}
 
-//    @GetMapping("/getTasksByDueDate/{dueDate}")
-//    public ResponseEntity<List<TaskResponseDto>> getTasksByDueDate(@PathVariable LocalDate dueDate) {
-//        try {
-//            return ResponseEntity.status(HttpStatus.OK)
-//                    .body(taskService.getTasksByDueDate(dueDate));
-//        }
-//        catch (TaskNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                    .body(null);
-//        }
-//        catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(null);
-//        }
-//    }
-
-//
-
 	@GetMapping("/getTasksByCreatedDate/{createdDate}")
 	public ResponseEntity<List<TaskResponseDto>> getTasksByCreatedDate(@PathVariable String createdDate) {
 		try {
@@ -170,6 +152,8 @@ public class TaskController {
 	public ResponseEntity<TaskResponseDto> submitTaskForReview(@PathVariable Long taskId) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(taskService.submitTaskForReview(taskId));
+			
+			
 		} catch (TaskNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		} catch (Exception e) {

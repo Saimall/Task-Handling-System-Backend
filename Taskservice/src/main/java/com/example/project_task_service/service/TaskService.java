@@ -2,6 +2,7 @@ package com.example.project_task_service.service;
 
 import com.example.project_task_service.dto.EmailRequestDto;
 import com.example.project_task_service.dto.EmployeeDto;
+import com.example.project_task_service.dto.ManagerDashboardDTo;
 import com.example.project_task_service.dto.TaskRequestDto;
 import com.example.project_task_service.dto.TaskResponseDto;
 import com.example.project_task_service.exceptions.ProjectNotFoundException;
@@ -51,9 +52,7 @@ public class TaskService {
 				.updatedAt(LocalDateTime.now()).completedAt(null).project(project).build();
 
 		System.out.println(task.getEmployeeId());
-
-//          String employeeEmail = getEmployeeEmailFromAccessGrand(task.getEmployeeId());
-//          notifyEmployee(employeeEmail, task.getTaskTitle(),task.getTaskDescription());
+  
 
 		return taskRepository.save(task);
 	}
@@ -77,39 +76,7 @@ public class TaskService {
 				.toList();
 	}
 
-//    public List<TaskResponseDto> getTasksByDueDate(LocalDate dueDate) {
-//        List<Task> tasks = taskRepository.findByDueDate(dueDate);
-//        if (tasks.isEmpty()) {
-//            throw new TaskNotFoundException("No tasks found with due date " + dueDate);
-//        }
-//
-//        return tasks.stream().map(task -> TaskResponseDto.builder()
-//                .taskId(task.getTaskId())
-//                .taskTitle(task.getTaskTitle())
-//                .taskDescription(task.getTaskDescription())
-//                .dueDateTime(task.getDueDateTime())
-//                .priority(task.getPriority())
-//                .employeeId(task.getEmployeeId())
-//                .status(task.getStatus())
-//                .build()).toList();
-//    }
 
-//    public List<TaskResponseDto> getTasksByCreatedDate(LocalDateTime createdAt) {
-//        List<Task> tasks = taskRepository.findByCreatedAt(createdAt);
-//        if (tasks.isEmpty()) {
-//            throw new TaskNotFoundException("No tasks found with created date " + createdAt);
-//        }
-//
-//        return tasks.stream().map(task -> TaskResponseDto.builder()
-//                .taskId(task.getTaskId())
-//                .taskTitle(task.getTaskTitle())
-//                .taskDescription(task.getTaskDescription())
-//                .dueDateTime(task.getDueDateTime())
-//                .priority(task.getPriority())
-//                .employeeId(task.getEmployeeId())
-//                .status(task.getStatus())
-//                .build()).toList();
-//    }
 
 	public List<TaskResponseDto> getTasksByCreatedDate(LocalDate createdDate) {
 		List<Task> tasks = taskRepository.findByCreatedDate(createdDate);
@@ -200,6 +167,21 @@ public class TaskService {
 						.priority(task.getPriority()).employeeId(task.getEmployeeId()).status(task.getStatus()).build())
 				.toList();
 	}
+	
+	 private String getManagerEmail(Long managerId) {
+		 
+		
+		RestClient restClient =  RestClient.create();
+		 
+	        String url = "http://localhost:9093/api/v1/manager/viewManagerDetails/" + managerId;
+	        ManagerDashboardDTo managerDetails = restClient.get()
+	                .uri(url)
+	                .retrieve()
+	                .body(ManagerDashboardDTo.class);
+	              
+
+	        return managerDetails != null ? managerDetails.getEmail() : null;
+	    }
 
 	public TaskResponseDto submitTaskForReview(Long taskId) {
 		Task existingTask = taskRepository.findById(taskId)
@@ -210,7 +192,33 @@ public class TaskService {
 			existingTask.setUpdatedAt(LocalDateTime.now());
 			taskRepository.save(existingTask);
 		}
+		
 
+		Long managerId = existingTask.getProject().getManagerId();
+        String managerEmail = getManagerEmail(managerId);
+        
+        if (managerEmail != null) {
+            EmailRequestDto emailRequestDto = new EmailRequestDto();
+            emailRequestDto.setToEmail(managerEmail);
+            emailRequestDto.setSubject("Task Submitted for Review");
+            emailRequestDto.setBody("The task titled '" + existingTask.getTaskTitle() +
+                    "' has been submitted for review by the employee.");
+
+            try {
+            	RestClient restClient =  RestClient.create();
+                 restClient.post()
+                        .uri("http://localhost:9093/notifications/sendEmail")
+                        .body(emailRequestDto)
+                        .retrieve()
+                        .toBodilessEntity();
+                        
+                System.out.println("Notification sent Successfully " );
+            } catch (Exception e) {
+                System.err.println("Failed to send notification: " + e.getMessage());
+            }
+        }
+        
+		
 		return TaskResponseDto.builder().taskId(existingTask.getTaskId()).taskTitle(existingTask.getTaskTitle())
 				.taskDescription(existingTask.getTaskDescription()).dueDateTime(existingTask.getDueDateTime())
 				.priority(existingTask.getPriority()).employeeId(existingTask.getEmployeeId())

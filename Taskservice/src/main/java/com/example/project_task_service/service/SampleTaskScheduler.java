@@ -19,21 +19,7 @@ public class SampleTaskScheduler {
     @Autowired
     private TaskRepository taskRepository;
 
-//    @Scheduled(cron = "0 * * * * ?") // Runs daily at midnight
-//    public void markOverdueTasks() {
-//        List<Task> tasks = taskRepository.findAll(); // Fetch all tasks, or apply necessary filters
-//        LocalDateTime now = LocalDateTime.now();
-//        System.out.println("Checking if scheduler is working");
-//        for (Task task : tasks) {
-//            System.out.println("Loop working");
-//            if (task.getDueDateTime().isBefore(now) && task.getStatus() != Status.COMPLETED && task.getStatus() != Status.IN_REVIEW) {
-//                System.out.println("If working");
-//                task.setStatus(Status.OVERDUE);
-//                task.setUpdatedAt(now);
-//                taskRepository.save(task);
-//            }
-//        }
-//    }
+
 
     @Scheduled(cron = "0 * * * * ?") // Runs every minute
     public void markOverdueTasks() {
@@ -41,18 +27,18 @@ public class SampleTaskScheduler {
         LocalDateTime now = LocalDateTime.now();
 
         for (Task task : tasks) {
-            // Use Optional to handle potential null values for dueDateTime
+            
             Optional<LocalDateTime> dueDateTimeOpt = Optional.ofNullable(task.getDueDateTime());
             Optional<Status> statusOpt = Optional.ofNullable(task.getStatus());
 
-            // Check if dueDateTime is present and not before the current time
+           
             if (dueDateTimeOpt.isPresent() && dueDateTimeOpt.get().isBefore(now)) {
-                // Use Optional to check status and update task if necessary
+                
                 if (statusOpt.isPresent() &&
                         statusOpt.get() != Status.COMPLETED &&
                         statusOpt.get() != Status.IN_REVIEW) {
 
-                    // Set status to OVERDUE, ensuring status is not null
+                    
                     task.setStatus(Status.OVERDUE);
                     task.setUpdatedAt(now); // Update the timestamp
 
