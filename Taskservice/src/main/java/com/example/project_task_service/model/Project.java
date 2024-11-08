@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,5 +33,6 @@ public class Project {
 
     @OneToMany(mappedBy ="project", cascade = CascadeType.ALL, orphanRemoval = true, fetch=FetchType.LAZY)
     @JsonManagedReference
+    @ToString.Exclude
     private List<Task> tasks;
 }

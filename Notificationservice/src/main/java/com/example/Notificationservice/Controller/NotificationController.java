@@ -1,5 +1,7 @@
 package com.example.Notificationservice.Controller;
 
+import java.io.Console;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,8 @@ public class NotificationController {
 
 	    @PostMapping("/sendEmail")
 	    public ResponseEntity<String> sendEmailNotification(@RequestBody EmailrequestDto emailRequest) {
+	    	
+	    	System.out.println(emailRequest.getBody());
 	        emailService.sendEmail(emailRequest.getToEmail(), emailRequest.getSubject(), emailRequest.getBody());
 	        return ResponseEntity.ok("Email sent successfully");
 	    }
