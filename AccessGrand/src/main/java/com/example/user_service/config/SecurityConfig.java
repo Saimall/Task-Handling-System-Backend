@@ -33,9 +33,8 @@ public class SecurityConfig {
         return http
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("api/v1/login", "api/v1/manager/register","api/v1/project/**","/api/v1/employee/viewEmployeeDetails/**","api/v1/manager/viewManagerDetails/**").permitAll()
+                        .requestMatchers("api/v1/login", "api/v1/manager/register").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-//                        .requestMatchers(HttpMethod.POST,"/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

@@ -44,17 +44,17 @@ public class ProjectController {
 
     //Each Project has unique project ID, So when we delete  by project id it is associated with particular manager only
     @DeleteMapping("/deleteProjects/{projectId}")
-    public ResponseEntity<String> deleteProjectsByManager(@PathVariable Long projectId){
+    public void deleteProjectsByManager(@PathVariable Long projectId){
         try {
-            return ResponseEntity.status(HttpStatus.OK)
+            ResponseEntity.status(HttpStatus.OK)
                     .body(projectService.deleteProjectsByManager(projectId));
         }
         catch (ProjectNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+           ResponseEntity.status(HttpStatus.NOT_FOUND)
                    .body(null);
         }
         catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
         }
     }

@@ -93,22 +93,19 @@ public class ManagerController {
     }
 
 
-
-    
-
     //To Delete a Employee
     @DeleteMapping("/deleteEmployee/{employeeId}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable Long employeeId){
+    public void deleteEmployee(@PathVariable Long employeeId){
         try{
-            return ResponseEntity.status(HttpStatus.OK)
+            ResponseEntity.status(HttpStatus.OK)
                     .body(userService.deleteEmployee(employeeId));
         }
         catch(EmployeeNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+             ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(null);
         }
         catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
         }
     }

@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Optional;
 
@@ -182,15 +183,17 @@ public class UserService {
         return employee.getName();
     }
 
+   
     public Employee updateEmployee(Long employeeId, EmployeeDto employeeDto) {
+    	
         Employee employee = employeeRepo.findById(employeeId)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + employeeId));
-
+     
         employee.setName(employeeDto.getName());
-        employee.setEmail(employeeDto.getEmail());
+        employee.setEmail(employee.getEmail());
         employee.setContact(employeeDto.getContact());
         employee.setDesignation(employeeDto.getDesignation());
-
-        return employeeRepo.save(employee);
+       Employee employee2= employeeRepo.save(employee);
+        return employee2;
     }
 }

@@ -47,10 +47,10 @@ public class EmployeeController {
     }
 
     @PutMapping("/updateEmployee/{employeeId}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody EmployeeDto employeeDto){
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody EmployeeDto employee){
         try{
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(userService.updateEmployee(employeeId, employeeDto));
+                    .body(userService.updateEmployee(employeeId, employee));
         }
         catch(ManagerNotFoundException | EmployeeNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
