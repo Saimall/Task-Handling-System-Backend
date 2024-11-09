@@ -1,7 +1,9 @@
 package com.example.project_task_service.controller;
 import org.springframework.http.HttpHeaders;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 
@@ -59,8 +61,8 @@ public class TaskController {
 		        dto -> {
 		            System.out.println("Employee details retrieved: " + dto);
 
-		           
-		            emailRequestDto.setBody("Task Added with " + createdTask.getTaskDescription() + "\n" + "Task Deadline: " + createdTask.getDueDateTime());
+		            DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
+		            emailRequestDto.setBody("Task Added with " + createdTask.getTaskDescription() + "\n" + "Task Deadline: " +  createdTask.getDueDateTime().format(formatter));
 		            emailRequestDto.setSubject("Task Added with title " + createdTask.getTaskTitle());
 		            emailRequestDto.setToEmail(dto.getEmail());
 		            System.out.println("Preparing to send email notification...");
@@ -157,13 +159,13 @@ public class TaskController {
 	}
 
 	@DeleteMapping("/deleteTask/{taskId}")
-	public ResponseEntity<String> deleteTask(@PathVariable Long taskId) {
+	public void deleteTask(@PathVariable Long taskId) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(taskService.deleteTask(taskId));
+			taskService.deleteTask(taskId);
 		} catch (TaskNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			 ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
 
