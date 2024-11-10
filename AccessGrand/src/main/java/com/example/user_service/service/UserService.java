@@ -173,7 +173,7 @@ public class UserService {
         employeeDashboard.setEmail(employee.getEmail());
         employeeDashboard.setContact(employee.getContact());
         employeeDashboard.setDesignation(employee.getDesignation());
-
+        System.out.println("Employee Details from dahsboard"+employeeDashboard);
         return employeeDashboard;
     }
 
