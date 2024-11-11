@@ -40,8 +40,10 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
-
+    
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+
 
     @Transactional
     public Manager registerManager(ManagerDto managerDto) {
@@ -196,4 +198,28 @@ public class UserService {
        Employee employee2= employeeRepo.save(employee);
         return employee2;
     }
+
+	public void updatePassword(String mail, String oldPassword, String newPassword) {
+		 Usermain usermain=userRepo.findByEmail(mail)
+	                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
+
+	       System.out.println("User details"+usermain);
+	       
+	       String hasholdpasswordString=encoder.encode(oldPassword);
+	       System.out.println(hasholdpasswordString);
+	       
+
+	        
+	        if (oldPassword.equals(newPassword)) {
+	            throw new IllegalArgumentException("New password cannot be the same as the old password.");
+	        }
+
+	        String hashedNewPassword = encoder.encode(newPassword);
+	        usermain.setPassword(hashedNewPassword);
+	        System.out.println(usermain.getPassword());
+	      
+	        userRepo.save(usermain);
+	    }
+		
+	
 }
