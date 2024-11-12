@@ -287,7 +287,7 @@ public class TaskService {
 	}
 
 	@Transactional
-	public String deleteTask(Long taskId) {
+	public void deleteTask(Long taskId) {
 		Task existingTask = taskRepository.findById(taskId)
 				.orElseThrow(() -> new TaskNotFoundException("Task not found with ID " + taskId));
 
@@ -298,7 +298,7 @@ public class TaskService {
 		}
 		taskRepository.deleteById(taskId);
 
-		return "Task deleted successfully with ID " + taskId;
+	
 	}
 
 	public List<TaskResponseDto> getTasksByEmployeeId(Long employeeId) {
