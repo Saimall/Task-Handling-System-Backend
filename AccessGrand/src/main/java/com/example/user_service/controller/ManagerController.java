@@ -42,10 +42,10 @@ public class ManagerController {
 
 
     @PostMapping("/registerEmployee/{managerId}")
-    public ResponseEntity<Employee> registerEmployee(@RequestBody EmployeeDto employeedto, @PathVariable Long managerId){
+    public ResponseEntity<Employee> registerEmployee(@RequestBody EmployeeDto employeedto, @PathVariable Long managerId,@RequestHeader("Authorization") String token){
         try{
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(userService.registerEmployee(employeedto,managerId));
+                    .body(userService.registerEmployee(employeedto,managerId,token));
         }
         catch(ManagerNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

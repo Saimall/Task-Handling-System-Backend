@@ -13,11 +13,13 @@ import com.example.user_service.repository.ManagerRepo;
 import com.example.user_service.repository.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.Console;
 import java.util.List;
@@ -68,7 +70,7 @@ public class UserService {
 
     }
 
-    public Employee registerEmployee(EmployeeDto employeedto, Long managerId) {
+    public Employee registerEmployee(EmployeeDto employeedto, Long managerId,String token) {
         Manager manager = managerRepo.findById(managerId).orElseThrow(() -> new ManagerNotFoundException("Manager not found"));
         Employee employee = Employee.builder()
                 .name(employeedto.getName())
@@ -86,6 +88,35 @@ public class UserService {
 
         userRepo.save(user);
         employeeRepo.save(employee);
+        EmailRequestDTO emailRequestDto = new EmailRequestDTO();       
+        emailRequestDto.setSubject("Welcome to the Team! Please Update Your Password");
+        emailRequestDto.setBody(
+        	    "Hi " + employeedto.getName() + ",\n\n" +
+        	    "Congratulations on joining the team! We’re excited to have you with us and look forward to working together.\n\n" +
+        	    "To get started, please log in using the default password: 12345678. For your security, make sure to change this password as soon as possible after logging in.\n\n" +
+        	    "If you need any help or have any questions, feel free to reach out!\n\n" +
+        	    "Welcome aboard once again, and we're thrilled to have you with us."
+        	);
+
+
+        emailRequestDto.setToEmail(employeedto.getEmail());
+        System.out.println("Preparing to send email notification...");
+        
+        
+        String notificationUrl = "http://localhost:9093/notifications/sendEmail";
+        System.out.println("Emaillbody"+emailRequestDto);
+        WebClient webClient = WebClient.create();
+                   webClient.post()
+                       .uri(notificationUrl)
+                       .header(HttpHeaders.AUTHORIZATION,token)
+                       .bodyValue(emailRequestDto)
+                       .retrieve()
+                       .toBodilessEntity()
+                       .subscribe(
+                           response -> System.out.println("Email sent successfully"),
+                           error -> System.err.println("Failed to send email: " + error.getMessage())
+                       );
+        
         return employee;
     }
 
