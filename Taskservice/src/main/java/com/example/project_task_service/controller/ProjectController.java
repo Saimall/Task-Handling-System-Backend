@@ -58,4 +58,20 @@ public class ProjectController {
                     .body(null);
         }
     }
+    
+    @DeleteMapping("/deleteProjectsForTest/{projectId}")
+    public ResponseEntity<?> deleteProjectsByManagerForTest(@PathVariable Long projectId){
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(projectService.deleteProjectsByManager(projectId));
+        }
+        catch (ProjectNotFoundException e){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                   .body(null);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
 }

@@ -160,12 +160,12 @@ public class TaskController {
 	}
 
 	@DeleteMapping("/deleteTask/{taskId}")
-	public void deleteTask(@PathVariable Long taskId) {
+	public ResponseEntity<?> deleteTask(@PathVariable Long taskId) {
 		try {
-
 			taskService.deleteTask(taskId);
+			return ResponseEntity.ok(null);
 		} catch (TaskNotFoundException e) {
-			ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 		
 		
