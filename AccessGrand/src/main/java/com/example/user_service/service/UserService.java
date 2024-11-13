@@ -75,9 +75,9 @@ public class UserService {
 
     public Employee registerEmployee(EmployeeDto employeedto, Long managerId,String token) {
         Manager manager = managerRepo.findById(managerId).orElseThrow(() -> new ManagerNotFoundException("Manager not found"));
-        if(employeeRepo.existsByEmail(employeedto.getEmail())) {
-            throw new EmployeeAlreadyExistException("Employee already exists with this email");
-        }
+//        if(employeeRepo.existsByEmail(employeedto.getEmail())) {
+//            throw new EmployeeAlreadyExistException("Employee already exists with this email");
+//        }
         Employee employee = Employee.builder()
                 .name(employeedto.getName())
                 .email(employeedto.getEmail())
