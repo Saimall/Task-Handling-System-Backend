@@ -19,6 +19,7 @@ public class Manager {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long managerId;
     private String name;
+    @Column(unique = true, nullable = false)
     private String email;
     private String contact;
     @OneToMany(mappedBy ="manager",cascade = CascadeType.ALL, orphanRemoval = true, fetch=FetchType.LAZY)
