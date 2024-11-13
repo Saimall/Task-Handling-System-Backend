@@ -41,6 +41,24 @@ public class ProjectController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No projects found under this manager");
         }
     }
+    
+    @GetMapping("/getProject/{projectId}")
+    public ResponseEntity<?> getProjectById(@PathVariable Long projectId) {
+        try {
+        	System.out.println("ID is coming:"+projectId);
+            Project project = projectService.getProjectById(projectId);
+            System.out.println("project data"+project);
+            if (project==null) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                        .body("No projects found under this ID");
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(project);
+
+        }
+        catch (ProjectNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No projects found under this manager");
+        }
+    }
 
     //Each Project has unique project ID, So when we delete  by project id it is associated with particular manager only
     @DeleteMapping("/deleteProjects/{projectId}")

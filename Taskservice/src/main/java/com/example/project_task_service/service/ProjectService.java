@@ -56,4 +56,11 @@ public class ProjectService {
             throw new ProjectNotFoundException("Project not found with id: " + projectId);
         }
     }
+
+	public Project getProjectById(Long projectId) {
+		Optional<Project> project= projectRepository.findById(projectId);
+		return project.get();
+	}
+
+
 }
