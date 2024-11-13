@@ -27,15 +27,12 @@ class EmailServiceTest {
 
     @Test
     void testSendEmail() {
-        // Arrange
         String toEmail = "test@example.com";
         String subject = "Test Subject";
         String body = "Test Body";
 
-        // Act
         emailService.sendEmail(toEmail, subject, body);
 
-        // Assert
         verify(mailSender, times(1)).send(any(SimpleMailMessage.class));
     }
 }

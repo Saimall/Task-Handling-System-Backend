@@ -46,11 +46,9 @@ class TaskServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Mocking a Project object
         project = new Project();
         project.setProjectId(1L);
 
-        // Mocking a TaskRequestDto object
         taskRequestDto = new TaskRequestDto();
         taskRequestDto.setTaskTitle("Test Task");
         taskRequestDto.setTaskDescription("Test Task Description");
@@ -58,7 +56,6 @@ class TaskServiceTest {
         taskRequestDto.setPriority(Priority.HIGH);
         taskRequestDto.setEmployeeId(1L);
 
-        // Mocking a Task object
         task = Task.builder()
                 .taskId(1L)
                 .taskTitle("Test Task")
@@ -73,14 +70,11 @@ class TaskServiceTest {
 
     @Test
     void addTaskToProject_ShouldReturnTask() throws Exception {
-        // Arrange
         when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
         when(taskRepository.save(any(Task.class))).thenReturn(task);
 
-        // Act
         Task result = taskService.addTaskToProject(1L, taskRequestDto);
 
-        // Assert
         assertNotNull(result);
         assertEquals("Test Task", result.getTaskTitle());
         assertEquals(Status.TODO, result.getStatus());
@@ -89,10 +83,8 @@ class TaskServiceTest {
 
     @Test
     void addTaskToProject_ShouldThrowException_WhenProjectNotFound() {
-        // Arrange
         when(projectRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // Act & Assert
         assertThrows(Exception.class, () -> taskService.addTaskToProject(1L, taskRequestDto));
     }
 
@@ -123,14 +115,11 @@ class TaskServiceTest {
 
     @Test
     void updateTaskStatus_ShouldUpdateTaskStatus() {
-        // Arrange
         when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
         when(taskRepository.save(any(Task.class))).thenReturn(task);
 
-        // Act
         TaskResponseDto result = taskService.updateTaskStatus(1L, Status.COMPLETED, "token");
 
-        // Assert
         assertEquals(Status.COMPLETED, task.getStatus());
         assertEquals("Test Task", result.getTaskTitle());
         verify(taskRepository, times(1)).save(any(Task.class));

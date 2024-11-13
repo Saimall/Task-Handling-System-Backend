@@ -37,23 +37,16 @@ class NotificationControllerTest {
 
     @Test
     void testSendEmailNotification() throws Exception {
-        // Arrange: Create a mock EmailrequestDto
         EmailrequestDto emailRequest = new EmailrequestDto("test@example.com","Test Subject","Test Body");
-//        emailRequest.setToEmail("test@example.com");
-//        emailRequest.setSubject("Test Subject");
-//        emailRequest.setBody("Test Body");
 
-        // Mock email service to do nothing when sendEmail is called
         doNothing().when(emailService).sendEmail(anyString(), anyString(), anyString());
 
-        // Act & Assert: Perform POST request and verify response
         mockMvc.perform(post("/notifications/sendEmail")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Email sent successfully"));
 
-        // Verify sendEmail was called with the correct parameters
         verify(emailService).sendEmail(eq("test@example.com"), eq("Test Subject"), eq("Test Body"));
     }
 }

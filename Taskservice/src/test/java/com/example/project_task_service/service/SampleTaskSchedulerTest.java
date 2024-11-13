@@ -62,56 +62,43 @@ public class SampleTaskSchedulerTest {
 
     @Test
     void testMarkOverdueTasks_OverdueTasksAreUpdated() {
-        // Prepare mock behavior
         when(taskRepository.findAll()).thenReturn(Arrays.asList(overdueTask, nonOverdueTask, completedTask, inReviewTask));
 
-        // Call the method to be tested
         sampleTaskScheduler.markOverdueTasks();
 
-        // Verify if the overdue task was updated to 'OVERDUE' status
         verify(taskRepository, times(1)).save(overdueTask);
         assertEquals(Status.OVERDUE, overdueTask.getStatus());
         
-        // Verify that non-overdue tasks are not updated
         verify(taskRepository, times(0)).save(nonOverdueTask);
         
-        // Verify that completed and in-review tasks are not updated
         verify(taskRepository, times(0)).save(completedTask);
         verify(taskRepository, times(0)).save(inReviewTask);
     }
 
     @Test
     void testMarkOverdueTasks_NoOverdueTasks() {
-        // Prepare mock behavior where all tasks are not overdue
         when(taskRepository.findAll()).thenReturn(Arrays.asList(nonOverdueTask, completedTask, inReviewTask));
 
-        // Call the method to be tested
         sampleTaskScheduler.markOverdueTasks();
 
-        // Verify that no task was updated, since none are overdue
         verify(taskRepository, times(0)).save(any(Task.class));
     }
 
     @Test
     void testMarkOverdueTasks_OverdueTasksWithoutStatusChange() {
-        // Task with overdue date and status completed or in review should not be updated
         when(taskRepository.findAll()).thenReturn(Arrays.asList(overdueTask, completedTask, inReviewTask));
 
-        // Call the method to be tested
         sampleTaskScheduler.markOverdueTasks();
 
-        // Verify that completed and in-review tasks are not updated
         verify(taskRepository, times(0)).save(completedTask);
         verify(taskRepository, times(0)).save(inReviewTask);
 
-        // Overdue task should have been updated to 'OVERDUE'
         verify(taskRepository, times(1)).save(overdueTask);
         assertEquals(Status.OVERDUE, overdueTask.getStatus());
     }
 
     @Test
     void testMarkOverdueTasks_UpdateOnlyValidTasks() {
-        // Set up mock data for overdue tasks with various statuses
         Task task1 = Task.builder()
                 .taskId(1L)
                 .dueDateTime(LocalDateTime.now().minusDays(1))
@@ -125,11 +112,9 @@ public class SampleTaskSchedulerTest {
 
         when(taskRepository.findAll()).thenReturn(Arrays.asList(task1, task2));
 
-        // Call the method to be tested
         sampleTaskScheduler.markOverdueTasks();
 
-        // Verify that only the valid overdue task gets updated
-        verify(taskRepository, times(1)).save(task1);  // Should be updated
-        verify(taskRepository, times(0)).save(task2);  // Should not be updated
+        verify(taskRepository, times(1)).save(task1);  
+        verify(taskRepository, times(0)).save(task2);  
     }
 }
