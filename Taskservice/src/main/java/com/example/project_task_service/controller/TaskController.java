@@ -147,10 +147,11 @@ public class TaskController {
 	}
 
 	@PutMapping("/updateTaskStatus/{taskId}/{status}")
-	public ResponseEntity<TaskResponseDto> updateTaskStatus(@PathVariable Long taskId, @PathVariable String status) {
+	public ResponseEntity<TaskResponseDto> updateTaskStatus(@PathVariable Long taskId, @PathVariable String status, @RequestHeader("Authorization") String token) {
 		try {
+			System.out.println("Inside the UpdateTaskstatus!!"+ token);
 			return ResponseEntity.status(HttpStatus.OK)
-					.body(taskService.updateTaskStatus(taskId, Status.valueOf(status)));
+					.body(taskService.updateTaskStatus(taskId, Status.valueOf(status),token));
 		} catch (TaskNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		} catch (Exception e) {
@@ -161,12 +162,13 @@ public class TaskController {
 	@DeleteMapping("/deleteTask/{taskId}")
 	public void deleteTask(@PathVariable Long taskId) {
 		try {
+
 			taskService.deleteTask(taskId);
 		} catch (TaskNotFoundException e) {
-			 ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-		} catch (Exception e) {
-			 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
+		
+		
 	}
 
 	@GetMapping("/getTasksByEmployeeId/{employeeId}")
@@ -181,9 +183,10 @@ public class TaskController {
 	}
 
 	@PutMapping("/submitTaskForReview/{taskId}")
-	public ResponseEntity<TaskResponseDto> submitTaskForReview(@PathVariable Long taskId) {
+	public ResponseEntity<TaskResponseDto> submitTaskForReview(@PathVariable Long taskId, @RequestHeader("Authorization") String token) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(taskService.submitTaskForReview(taskId));
+			System.out.println("Token in Review"+token);
+			return ResponseEntity.status(HttpStatus.OK).body(taskService.submitTaskForReview(taskId,token));
 			
 			
 		} catch (TaskNotFoundException e) {

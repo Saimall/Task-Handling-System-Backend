@@ -1,5 +1,5 @@
 package com.example.project_task_service.service;
-
+import org.springframework.http.HttpHeaders;
 import com.example.project_task_service.dto.EmailRequestDto;
 import com.example.project_task_service.dto.EmployeeDashboardDto;
 import com.example.project_task_service.dto.EmployeeDto;
@@ -23,6 +23,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.Console;
 import java.time.LocalDate;
@@ -125,23 +126,34 @@ public class TaskService {
 				.priority(existingTask.getPriority()).employeeId(existingTask.getEmployeeId())
 				.status(existingTask.getStatus()).build();
 	}
-	 private String getManagerEmail(Long managerId) {
-		 
-			
-			RestClient restClient =  RestClient.create();
-			 System.out.println("hellow manager email");
-		        String url = "http://localhost:9093/api/v1/manager/viewManagerDetails/" + managerId;
-		        ManagerDashboardDTo managerDetails = restClient.get()
-		                .uri(url)
-		                .retrieve()
-		                .body(ManagerDashboardDTo.class);
-		              
-	           
-		        return managerDetails != null ? managerDetails.getEmail() : null;
-		    }
+	
+	
+	
+	
+	private String getManagerEmail(Long managerId, String token) {
+	    WebClient webClient = WebClient.create();
+	    String url = "http://localhost:9093/api/v1/manager/viewManagerDetails/" + managerId;
+	    
+	    // Fetch manager details synchronously
+	    ManagerDashboardDTo managerDetails = webClient.get()
+	        .uri(url)
+	        .header(HttpHeaders.AUTHORIZATION, token)
+	        .retrieve()
+	        .bodyToMono(ManagerDashboardDTo.class)  // Convert response to ManagerDashboardDTo
+	        .block();  // Block until the response is received (this makes it synchronous)
+
+	    if (managerDetails != null) {
+	        System.out.println("Manager details retrieved: " + managerDetails);
+	        return managerDetails.getEmail();  // Return the email
+	    } else {
+	        System.err.println("Failed to retrieve manager details.");
+	        return null;
+	    }
+	}
 
 
-	public TaskResponseDto updateTaskStatus(Long taskId, Status newStatus) {
+
+	public TaskResponseDto updateTaskStatus(Long taskId, Status newStatus,String token) {
 		Task existingTask = taskRepository.findById(taskId)
 				.orElseThrow(() -> new TaskNotFoundException("Task not found with ID " + taskId));
 
@@ -150,68 +162,102 @@ public class TaskService {
 
 		taskRepository.save(existingTask);
 		
-		if(newStatus.toString()=="TODO") {
+		WebClient webClient = WebClient.create();
+		if(newStatus.toString().equals("TODO")) {
 			 Long employeeid = existingTask.getEmployeeId();
 			 String url = "http://localhost:9093/api/v1/employee/viewEmployeeDetails/" + employeeid;
 				System.out.println(url);
-				RestClient restClient = RestClient.create();
-				EmployeeDashboardDto dto = restClient.get().uri(url).retrieve().body(EmployeeDashboardDto.class);
-				System.out.println(dto);
-				EmailRequestDto emailRequestDto = new EmailRequestDto();
-				
-				emailRequestDto.setBody(existingTask.getTaskTitle()+ "is Reviewd and Required to Re-work on functionality"+"\n"+"feel free to replay to mail or meeting in case of clarification");
-				emailRequestDto.setSubject("Task Reviewd");
-				emailRequestDto.setToEmail(dto.getEmail());
-				 try {
-		            	
-	                 restClient.post()
-	                        .uri("http://localhost:9093/notifications/sendEmail")
-	                        .body(emailRequestDto)
-	                        .retrieve()
-	                        .toBodilessEntity();
-	                        
-	                System.out.println("Notification sent Successfully " );
-	            } catch (Exception e) {
-	                System.err.println("Failed to send notification: " + e.getMessage());
-	            }
+			
+				webClient.get()
+			    .uri(url)
+			    .header(HttpHeaders.AUTHORIZATION, token)
+			    .retrieve()
+			    .bodyToMono(EmployeeDashboardDto.class)
+			    .subscribe(dto -> {
+			        // Successfully retrieved EmployeeDashboardDto
+			        System.out.println("Employee details retrieved: " + dto);
+			        
+			        // Create the email request DTO
+			        EmailRequestDto emailRequestDto = new EmailRequestDto();
+			        emailRequestDto.setBody(existingTask.getTaskTitle() + " is reviewed and requires re-work on functionality.\nFeel free to reply to this email or schedule a meeting if you need clarification.");
+			        emailRequestDto.setSubject("Task Reviewed");
+			        emailRequestDto.setToEmail(dto.getEmail());
+			        
+			        // Prepare the email notification
+			        System.out.println("Preparing to send email notification...");
+
+			        String notificationUrl = "http://localhost:9093/notifications/sendEmail";
+			        System.out.println("Email body: " + emailRequestDto);
+
+			        // Send the email asynchronously using POST request
+			        webClient.post()
+			            .uri(notificationUrl)
+			            .header(HttpHeaders.AUTHORIZATION, token)
+			            .bodyValue(emailRequestDto)
+			            .retrieve()
+			            .toBodilessEntity()
+			            .subscribe(
+			                response -> System.out.println("Email sent successfully"),
+			                error -> System.err.println("Failed to send email: " + error.getMessage())
+			            );
+			    }, error -> {
+			        // Handle error in GET request (e.g., failure to retrieve Employee details)
+			        System.err.println("Failed to retrieve employee details: " + error.getMessage());
+			    });
 			
 		}
 		
 		
-		if(newStatus.toString()=="COMPLETED") {
+		if(newStatus.toString().equals("COMPLETED")) {
 			 Long employeeid = existingTask.getEmployeeId();
 			 String url = "http://localhost:9093/api/v1/employee/viewEmployeeDetails/" + employeeid;
 				System.out.println(url);
-				RestClient restClient = RestClient.create();
-				EmployeeDashboardDto dto = restClient.get().uri(url).retrieve().body(EmployeeDashboardDto.class);
-				System.out.println(dto);
-				EmailRequestDto emailRequestDto = new EmailRequestDto();
 				
-				emailRequestDto.setBody(existingTask.getTaskTitle()+ "is Reviewd and Accepted by the team !! Good Work!");
-				emailRequestDto.setSubject("Task Reviewd");
-				emailRequestDto.setToEmail(dto.getEmail());
-				
-				System.out.println("Send mail");
-				 try {
-		            	
-		                 restClient.post()
-		                        .uri("http://localhost:9093/notifications/sendEmail")
-		                        .body(emailRequestDto)
-		                        .retrieve()
-		                        .toBodilessEntity();
-		                        
-		                System.out.println("Notification sent Successfully " );
-		            } catch (Exception e) {
-		                System.err.println("Failed to send notification: " + e.getMessage());
-		            }
-		        
+
+				// Fetch EmployeeDashboardDto via GET request
+				webClient.get()
+				    .uri(url)
+				    .header(HttpHeaders.AUTHORIZATION, token)
+				    .retrieve()   
+				    .bodyToMono(EmployeeDashboardDto.class)
+				    .subscribe(dto -> {
+				        // Successfully retrieved EmployeeDashboardDto
+				        System.out.println("Employee details retrieved: " + dto);
+				        
+				        // Create the email request DTO
+				        EmailRequestDto emailRequestDto = new EmailRequestDto();
+				        emailRequestDto.setBody(existingTask.getTaskTitle() + " is reviewed and accepted by the team !! Good work!");
+				        emailRequestDto.setSubject("Task Reviewed");
+				        emailRequestDto.setToEmail(dto.getEmail());
+				        
+				        // Prepare the email notification
+				        System.out.println("Preparing to send email notification...");
+
+				        String notificationUrl = "http://localhost:9093/notifications/sendEmail";
+				        System.out.println("Email body: " + emailRequestDto);
+
+				        // Send the email asynchronously using POST request
+				        webClient.post()
+				            .uri(notificationUrl)
+				            .header(HttpHeaders.AUTHORIZATION, token)
+				            .bodyValue(emailRequestDto)
+				            .retrieve()
+				            .toBodilessEntity()
+				            .subscribe(
+				                response -> System.out.println("Email sent successfully"),
+				                error -> System.err.println("Failed to send email: " + error.getMessage())
+				            );
+				    }, error -> {
+				        // Handle error in GET request
+				        System.err.println("Failed to retrieve employee details: " + error.getMessage());
+				    });
 				
 		}
 		
 		
-        if(newStatus.toString()=="IN_REVIEW") {
+        if(newStatus.toString().equals("IN_REVIEW")) {
         Long managerId = existingTask.getProject().getManagerId();
-        String managerEmail = getManagerEmail(managerId);
+        String managerEmail = getManagerEmail(managerId,token);
         System.out.println("Manager Email:"+managerEmail);
         if (managerEmail != null) {
             EmailRequestDto emailRequestDto = new EmailRequestDto();
@@ -219,19 +265,17 @@ public class TaskService {
             emailRequestDto.setSubject("Task Submitted for Review");
             emailRequestDto.setBody("The task titled '" + existingTask.getTaskTitle() +
                     "' has been submitted for review by the employee.");
-
-            try {
-            	RestClient restClient =  RestClient.create();
-                 restClient.post()
-                        .uri("http://localhost:9093/notifications/sendEmail")
-                        .body(emailRequestDto)
-                        .retrieve()
-                        .toBodilessEntity();
-                        
-                System.out.println("Notification sent Successfully " );
-            } catch (Exception e) {
-                System.err.println("Failed to send notification: " + e.getMessage());
-            }
+            String notificationUrl = "http://localhost:9093/notifications/sendEmail";
+            webClient.post()
+            .uri(notificationUrl)
+            .header(HttpHeaders.AUTHORIZATION, token)
+            .bodyValue(emailRequestDto)
+            .retrieve()
+            .toBodilessEntity()
+            .subscribe(
+                response -> System.out.println("Manager notification sent successfully"),
+                error -> System.err.println("Failed to send manager notification: " + error.getMessage())
+            );
         }
         }
         
@@ -271,7 +315,7 @@ public class TaskService {
 	}
 	
 	
-	public TaskResponseDto submitTaskForReview(Long taskId) {
+	public TaskResponseDto submitTaskForReview(Long taskId, String token) {
 		Task existingTask = taskRepository.findById(taskId)
 				.orElseThrow(() -> new TaskNotFoundException("Task not found with ID " + taskId));
 
@@ -279,11 +323,13 @@ public class TaskService {
 			existingTask.setStatus(Status.IN_REVIEW);
 			existingTask.setUpdatedAt(LocalDateTime.now());
 			taskRepository.save(existingTask);
+			System.out.println("inside submit task review!!!");
 		}
 		
 
 		Long managerId = existingTask.getProject().getManagerId();
-        String managerEmail = getManagerEmail(managerId);
+		System.out.println("manger ID"+managerId);
+        String managerEmail = getManagerEmail(managerId,token);
         System.out.println("Manager Email:"+managerEmail);
         if (managerEmail != null) {
             EmailRequestDto emailRequestDto = new EmailRequestDto();
@@ -296,6 +342,7 @@ public class TaskService {
             	RestClient restClient =  RestClient.create();
                  restClient.post()
                         .uri("http://localhost:9093/notifications/sendEmail")
+                        .header(HttpHeaders.AUTHORIZATION, token)
                         .body(emailRequestDto)
                         .retrieve()
                         .toBodilessEntity();

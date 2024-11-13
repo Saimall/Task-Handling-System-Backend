@@ -14,11 +14,13 @@ import com.example.user_service.repository.ManagerRepo;
 import com.example.user_service.repository.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.Console;
 import java.util.List;
@@ -41,8 +43,10 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
-
+    
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+
 
     @Transactional
     public Manager registerManager(ManagerDto managerDto) {
@@ -69,7 +73,7 @@ public class UserService {
 
     }
 
-    public Employee registerEmployee(EmployeeDto employeedto, Long managerId) {
+    public Employee registerEmployee(EmployeeDto employeedto, Long managerId,String token) {
         Manager manager = managerRepo.findById(managerId).orElseThrow(() -> new ManagerNotFoundException("Manager not found"));
         if(employeeRepo.existsByEmail(employeedto.getEmail())) {
             throw new EmployeeAlreadyExistException("Employee already exists with this email");
@@ -90,6 +94,35 @@ public class UserService {
 
         userRepo.save(user);
         employeeRepo.save(employee);
+        EmailRequestDTO emailRequestDto = new EmailRequestDTO();       
+        emailRequestDto.setSubject("Welcome to the Team! Please Update Your Password");
+        emailRequestDto.setBody(
+        	    "Hi " + employeedto.getName() + ",\n\n" +
+        	    "Congratulations on joining the team! We’re excited to have you with us and look forward to working together.\n\n" +
+        	    "To get started, please log in using the default password: 12345678. For your security, make sure to change this password as soon as possible after logging in.\n\n" +
+        	    "If you need any help or have any questions, feel free to reach out!\n\n" +
+        	    "Welcome aboard once again, and we're thrilled to have you with us."
+        	);
+
+
+        emailRequestDto.setToEmail(employeedto.getEmail());
+        System.out.println("Preparing to send email notification...");
+        
+        
+        String notificationUrl = "http://localhost:9093/notifications/sendEmail";
+        System.out.println("Emaillbody"+emailRequestDto);
+        WebClient webClient = WebClient.create();
+                   webClient.post()
+                       .uri(notificationUrl)
+                       .header(HttpHeaders.AUTHORIZATION,token)
+                       .bodyValue(emailRequestDto)
+                       .retrieve()
+                       .toBodilessEntity()
+                       .subscribe(
+                           response -> System.out.println("Email sent successfully"),
+                           error -> System.err.println("Failed to send email: " + error.getMessage())
+                       );
+        
         return employee;
     }
 
@@ -177,7 +210,7 @@ public class UserService {
         employeeDashboard.setEmail(employee.getEmail());
         employeeDashboard.setContact(employee.getContact());
         employeeDashboard.setDesignation(employee.getDesignation());
-
+        System.out.println("Employee Details from dahsboard"+employeeDashboard);
         return employeeDashboard;
     }
 
@@ -200,4 +233,28 @@ public class UserService {
        Employee employee2= employeeRepo.save(employee);
         return employee2;
     }
+
+	public void updatePassword(String mail, String oldPassword, String newPassword) {
+		 Usermain usermain=userRepo.findByEmail(mail)
+	                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
+
+	       System.out.println("User details"+usermain);
+	       
+	       String hasholdpasswordString=encoder.encode(oldPassword);
+	       System.out.println(hasholdpasswordString);
+	       
+
+	        
+	        if (oldPassword.equals(newPassword)) {
+	            throw new IllegalArgumentException("New password cannot be the same as the old password.");
+	        }
+
+	        String hashedNewPassword = encoder.encode(newPassword);
+	        usermain.setPassword(hashedNewPassword);
+	        System.out.println(usermain.getPassword());
+	      
+	        userRepo.save(usermain);
+	    }
+		
+	
 }
