@@ -1,6 +1,7 @@
 package com.example.user_service.service;
 
 import com.example.user_service.dto.*;
+import com.example.user_service.exceptions.EmployeeAlreadyExistsException;
 import com.example.user_service.exceptions.EmployeeNotFoundException;
 import com.example.user_service.exceptions.ManagerAlreadyExistException;
 import com.example.user_service.exceptions.ManagerNotFoundException;
@@ -74,6 +75,11 @@ public class UserService {
 
     public Employee registerEmployee(EmployeeDto employeedto, Long managerId,String token) {
         Manager manager = managerRepo.findById(managerId).orElseThrow(() -> new ManagerNotFoundException("Manager not found"));
+       
+        if(employeeRepo.existsByEmail(employeedto.getEmail())) {
+        	throw new EmployeeAlreadyExistsException("Employee with mail already present in the Database!!");
+        }
+        
         Employee employee = Employee.builder()
                 .name(employeedto.getName())
                 .email(employeedto.getEmail())
