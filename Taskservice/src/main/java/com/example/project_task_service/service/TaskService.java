@@ -233,9 +233,9 @@ public class TaskService {
 				        EmailRequestDto emailRequestDto = new EmailRequestDto();
 				        emailRequestDto.setBody("Dear " + dto.getName() + ",\n\n" +
 				                "The task titled '" + existingTask.getTaskTitle() + "' has been reviewed and accepted by the team. Good work!\n\n" +
-				                "Thank you for your hard work and dedication. Keep it up!\n\n" +
-				                "Best regards,\n" +
-				                +'\n' );
+				                "Thank you for your hard work and dedication. Keep it up!\n\n" 
+				                
+				                 );
 				        emailRequestDto.setSubject("Task Reviewed - Accepted by the Team");
 				        emailRequestDto.setToEmail(dto.getEmail());
 				        
