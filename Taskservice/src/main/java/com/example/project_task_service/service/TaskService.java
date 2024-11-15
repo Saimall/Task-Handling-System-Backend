@@ -179,9 +179,14 @@ public class TaskService {
 			        
 			        // Create the email request DTO
 			        EmailRequestDto emailRequestDto = new EmailRequestDto();
-			        emailRequestDto.setBody(existingTask.getTaskTitle() + " is reviewed and requires re-work on functionality.\nFeel free to reply to this email or schedule a meeting if you need clarification.");
-			        emailRequestDto.setSubject("Task Reviewed");
+			        emailRequestDto.setBody("Dear " + dto.getName() + ",\n\n" +
+			                "The task titled '" + existingTask.getTaskTitle() + "' has been reviewed and requires rework on functionality.\n\n" +
+			                "Please review the feedback and make the necessary updates. Feel free to reply to this email or schedule a meeting if you need further clarification.\n\n" 
+			                
+			                );
+			        emailRequestDto.setSubject("Task Reviewed - Rework Required");
 			        emailRequestDto.setToEmail(dto.getEmail());
+
 			        
 			        // Prepare the email notification
 			        System.out.println("Preparing to send email notification...");
@@ -226,8 +231,12 @@ public class TaskService {
 				        
 				        // Create the email request DTO
 				        EmailRequestDto emailRequestDto = new EmailRequestDto();
-				        emailRequestDto.setBody(existingTask.getTaskTitle() + " is reviewed and accepted by the team !! Good work!");
-				        emailRequestDto.setSubject("Task Reviewed");
+				        emailRequestDto.setBody("Dear " + dto.getName() + ",\n\n" +
+				                "The task titled '" + existingTask.getTaskTitle() + "' has been reviewed and accepted by the team. Good work!\n\n" +
+				                "Thank you for your hard work and dedication. Keep it up!\n\n" +
+				                "Best regards,\n" +
+				                +'\n' );
+				        emailRequestDto.setSubject("Task Reviewed - Accepted by the Team");
 				        emailRequestDto.setToEmail(dto.getEmail());
 				        
 				        // Prepare the email notification
@@ -260,11 +269,15 @@ public class TaskService {
         String managerEmail = getManagerEmail(managerId,token);
         System.out.println("Manager Email:"+managerEmail);
         if (managerEmail != null) {
-            EmailRequestDto emailRequestDto = new EmailRequestDto();
-            emailRequestDto.setToEmail(managerEmail);
-            emailRequestDto.setSubject("Task Submitted for Review");
-            emailRequestDto.setBody("The task titled '" + existingTask.getTaskTitle() +
-                    "' has been submitted for review by the employee.");
+        	EmailRequestDto emailRequestDto = new EmailRequestDto();
+        	emailRequestDto.setToEmail(managerEmail);
+        	emailRequestDto.setSubject("Task Submitted for Review");
+        	emailRequestDto.setBody("Dear Manager,\n\n" +
+        	        "The task titled '" + existingTask.getTaskTitle() + "' from the project '" + existingTask.getProject().getProjectName() + "' has been submitted for review " + ".\n\n" +
+        	        "Task Description: " + existingTask.getTaskDescription() + "\n" +
+        	        "Please review the task and provide feedback.\n\n" +
+        	        "Thank you.");
+
             String notificationUrl = "http://localhost:9093/notifications/sendEmail";
             webClient.post()
             .uri(notificationUrl)
