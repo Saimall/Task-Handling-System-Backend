@@ -1,6 +1,8 @@
 package com.example.project_task_service.service;
 
 import com.example.project_task_service.dto.ProjectDto;
+import com.example.project_task_service.dto.ProjectRequestDto;
+import com.example.project_task_service.dto.ProjectResponseDto;
 import com.example.project_task_service.exceptions.ProjectNotFoundException;
 import com.example.project_task_service.model.Project;
 import com.example.project_task_service.repository.ProjectRepository;
@@ -61,6 +63,27 @@ public class ProjectService {
 		Optional<Project> project= projectRepository.findById(projectId);
 		return project.get();
 	}
+	
+	public ProjectResponseDto updateProject(Long projectId, ProjectRequestDto projectDto) {
+	    Project existingProject = projectRepository.findById(projectId)
+	            .orElseThrow(() -> new ProjectNotFoundException("Project not found with ID " + projectId));
+
+	    existingProject.setProjectName(projectDto.getProjectName());
+	    existingProject.setProjectDescription(projectDto.getProjectDescription());
+	    existingProject.setStartDate(projectDto.getStartDate());
+	    existingProject.setEndDate(projectDto.getEndDate());
+
+	    projectRepository.save(existingProject);
+
+	    return ProjectResponseDto.builder()
+	            .projectId(existingProject.getProjectId())
+	            .projectName(existingProject.getProjectName())
+	            .projectDescription(existingProject.getProjectDescription())
+	            .startDate(existingProject.getStartDate())
+	            .endDate(existingProject.getEndDate())
+	            .build();
+	}
+
 
 
 }

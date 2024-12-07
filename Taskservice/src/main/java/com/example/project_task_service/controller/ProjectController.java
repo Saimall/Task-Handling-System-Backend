@@ -1,6 +1,8 @@
 package com.example.project_task_service.controller;
 
 import com.example.project_task_service.dto.ProjectDto;
+import com.example.project_task_service.dto.ProjectRequestDto;
+import com.example.project_task_service.dto.ProjectResponseDto;
 import com.example.project_task_service.exceptions.ProjectNotFoundException;
 import com.example.project_task_service.model.Project;
 import com.example.project_task_service.service.ProjectService;
@@ -92,4 +94,18 @@ public class ProjectController {
                     .body(null);
         }
     }
+    
+    @PutMapping("/updateProjects/{projectId}")
+    public ResponseEntity<ProjectResponseDto> updateProject(
+            @PathVariable Long projectId,
+            @RequestBody ProjectRequestDto projectRequestDto) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(projectService.updateProject(projectId, projectRequestDto));
+        } catch (ProjectNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }
