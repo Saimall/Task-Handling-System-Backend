@@ -31,8 +31,10 @@ import com.example.project_task_service.dto.TaskRequestDto;
 import com.example.project_task_service.dto.TaskResponseDto;
 import com.example.project_task_service.exceptions.ProjectNotFoundException;
 import com.example.project_task_service.exceptions.TaskNotFoundException;
+import com.example.project_task_service.model.Project;
 import com.example.project_task_service.model.Status;
 import com.example.project_task_service.model.Task;
+import com.example.project_task_service.service.ProjectService;
 import com.example.project_task_service.service.TaskService;
 
 @RestController
@@ -40,12 +42,15 @@ import com.example.project_task_service.service.TaskService;
 public class TaskController {
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	private ProjectService projectService;
 
 	@PostMapping("/addTask/{projectId}")
 	public ResponseEntity<Task> addTaskToProject(@PathVariable Long projectId,
 			@RequestBody TaskRequestDto taskRequestDto, @RequestHeader("Authorization") String token) {
 		try {
 			Task createdTask = taskService.addTaskToProject(projectId, taskRequestDto);
+			Project project = projectService.getProjectById(projectId); 
 			System.out.println("Created task"+createdTask);
 			System.out.println("EmployeeID"+createdTask.getEmployeeId());
 			String url = "http://localhost:9093/api/v1/employee/viewEmployeeDetails/" + createdTask.getEmployeeId();
@@ -62,9 +67,14 @@ public class TaskController {
 		            System.out.println("Employee details retrieved: " + dto);
 
 		            DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
-		            emailRequestDto.setBody("Task Added with " + createdTask.getTaskDescription() + "\n" + "Task Deadline: " +  createdTask.getDueDateTime().format(formatter));
-		            emailRequestDto.setSubject("Task Added with title " + createdTask.getTaskTitle());
+		            emailRequestDto.setBody("Dear " + dto.getName() + ",\n\n" +
+		                    "A task has been assigned to you for the project '" + createdTask.getProject().getProjectName() + "'.\n" +
+		                    "Task Description: " + createdTask.getTaskDescription() + "\n" +
+		                    "Task Deadline: " + createdTask.getDueDateTime().format(formatter) + "\n\n" +
+		                    "Please review the task and take necessary action!.");
+		            emailRequestDto.setSubject("Task Assigned for Project '" + createdTask.getProject().getProjectName() + "' - " + createdTask.getTaskTitle());
 		            emailRequestDto.setToEmail(dto.getEmail());
+
 		            System.out.println("Preparing to send email notification...");
 		            
 		            
